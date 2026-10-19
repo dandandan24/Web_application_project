@@ -1,0 +1,17 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page">
+  <div class="page-head">
+    <div>
+      <h1>Comments moderation</h1>
+      <p class="muted">Latest comments from readers. Edit or remove inappropriate content.</p>
+    </div>
+  </div>
+  <ol class="comment-list moderation" id="mod-list"></ol>
+  <p class="empty-state hidden" id="mod-empty">No comments yet.</p>
+  <div class="center"><button type="button" class="btn btn-ghost hidden" id="mod-more">Load more</button></div>
+</main>
+<%- include('../partials/footer') %>
+<script src="/js/comments.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

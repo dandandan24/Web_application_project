@@ -1,0 +1,66 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page">
+  <div class="page-head">
+    <div>
+      <h1>Users</h1>
+      <p class="muted">Manage reporters and editors.</p>
+    </div>
+  </div>
+
+  <div class="users-layout">
+    <section class="panel" aria-labelledby="user-form-title">
+      <h2 id="user-form-title">Add a user</h2>
+      <form id="user-form" novalidate>
+        <input type="hidden" name="id" id="user-id">
+        <div class="field">
+          <label for="u-username">Username</label>
+          <input type="text" id="u-username" name="username" maxlength="30" required pattern="[a-z0-9_.\-]{3,30}" autocomplete="off">
+          <p class="field-hint">3-30 characters: lowercase letters, digits, . _ -</p>
+          <p class="field-error" data-for="username"></p>
+        </div>
+        <div class="field">
+          <label for="u-name">Display name</label>
+          <input type="text" id="u-name" name="displayName" maxlength="60" required>
+          <p class="field-error" data-for="displayName"></p>
+        </div>
+        <div class="field">
+          <label for="u-role">Role</label>
+          <select id="u-role" name="role">
+            <option value="reporter">Reporter</option>
+            <option value="editor">Editor</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="u-password" id="u-password-label">Password</label>
+          <input type="password" id="u-password" name="password" minlength="6" maxlength="100" autocomplete="new-password">
+          <p class="field-error" data-for="password"></p>
+        </div>
+        <p class="form-message" id="user-message" role="alert"></p>
+        <div class="form-actions">
+          <button type="submit" class="btn" id="user-submit">Create user</button>
+          <button type="button" class="btn btn-ghost hidden" id="user-cancel">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel grow" aria-labelledby="users-title">
+      <div class="toolbar">
+        <h2 id="users-title">All users</h2>
+        <label class="sr-only" for="user-search">Search users</label>
+        <input type="search" id="user-search" placeholder="Search by name or username…">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Username</th><th>Role</th><th class="num">Articles</th><th>Last login</th><th><span class="sr-only">Actions</span></th></tr></thead>
+          <tbody id="user-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+<script>window.CURRENT_USER_ID = <%- JSON.stringify(currentUser.id) %>;</script>
+<%- include('../partials/footer') %>
+<script src="/js/users.js?v=<%= assetVersion %>"></script>
+</body>
+</html>
