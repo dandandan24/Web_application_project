@@ -1,0 +1,45 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page">
+  <div class="page-head">
+    <div>
+      <h1>Editorial desk</h1>
+      <p class="muted">Review submitted articles, approve them for publication or return them to the reporter.</p>
+    </div>
+  </div>
+
+  <div class="tabs" id="status-tabs" role="tablist" aria-label="Filter by status">
+    <% Object.keys(statusLabels).forEach(function (s) { %>
+      <button type="button" class="tab <%= s === 'pending' ? 'active' : '' %>" data-status="<%= s %>" role="tab" aria-selected="<%= s === 'pending' %>"><span class="status-dot status-<%= s %>"></span><%= statusLabels[s] %> <span class="count" data-count="<%= s %>"></span></button>
+    <% }) %>
+    <button type="button" class="tab" data-status="" role="tab" aria-selected="false">All <span class="count" data-count="all"></span></button>
+  </div>
+
+  <div class="toolbar">
+    <label class="sr-only" for="ws-search">Search by title</label>
+    <input type="search" id="ws-search" placeholder="Search by title…" maxlength="100">
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Reporter</th>
+          <th>Status</th>
+          <th>Last change</th>
+          <th class="num">Views</th>
+          <th><span class="sr-only">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody id="ws-rows"></tbody>
+    </table>
+  </div>
+  <p class="empty-state hidden" id="ws-empty">No articles in this status.</p>
+  <div class="pager" id="ws-pager"></div>
+</main>
+<script>window.WS_ROLE = 'editor'; window.WS_EDITOR_DESK = true;</script>
+<%- include('../partials/footer') %>
+<script src="/js/workspace.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

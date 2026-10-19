@@ -1,0 +1,45 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page" data-article="<%= articleId %>">
+  <div class="page-head">
+    <div>
+      <p class="breadcrumbs"><a href="/editor">← Editorial desk</a></p>
+      <h1 id="review-title">Review article</h1>
+      <p class="muted" id="review-meta"></p>
+    </div>
+    <div class="status-area"><span class="status-pill" id="status-pill">Loading…</span></div>
+  </div>
+
+  <div class="notice notice-info hidden" id="update-notice"></div>
+
+  <div class="review-actions panel" id="review-actions">
+    <div class="action-buttons">
+      <button type="button" class="btn btn-success" id="approve-btn">Approve &amp; publish</button>
+      <a class="btn btn-ghost" id="edit-btn" href="/workspace/articles/<%= articleId %>/edit">Edit the article</a>
+      <a class="btn btn-ghost hidden" id="public-btn" href="/articles/<%= articleId %>" target="_blank" rel="noopener">View public page</a>
+      <a class="btn btn-ghost hidden" id="stats-btn" href="/editor/analytics?article=<%= articleId %>">Analytics</a>
+      <button type="button" class="btn btn-danger btn-ghost" id="delete-btn">Delete article</button>
+    </div>
+    <form id="return-form" class="return-form" novalidate>
+      <label for="return-note">Return to reporter with a note</label>
+      <textarea id="return-note" rows="3" maxlength="2000" placeholder="Explain which corrections are needed…"></textarea>
+      <p class="form-message" id="return-message" role="alert"></p>
+      <button type="submit" class="btn btn-warning">Return for corrections</button>
+    </form>
+  </div>
+
+  <div class="compare" id="compare">
+    <section class="compare-col hidden" id="live-col" aria-labelledby="live-head">
+      <h2 id="live-head">Currently published</h2>
+      <div class="compare-content" id="live-content"></div>
+    </section>
+    <section class="compare-col" id="working-col" aria-labelledby="working-head">
+      <h2 id="working-head">Submitted version</h2>
+      <div class="compare-content" id="working-content"></div>
+    </section>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<script src="/js/review.js?v=<%= assetVersion %>"></script>
+</body>
+</html>
