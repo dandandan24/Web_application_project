@@ -1,0 +1,63 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page" data-selected="<%= selected %>">
+  <div class="page-head">
+    <div>
+      <h1>Impact analytics</h1>
+      <p class="muted">Views over time, with the moments an editor approved and published an update.</p>
+    </div>
+  </div>
+
+  <div class="analytics-layout">
+    <aside class="panel article-picker" aria-label="Choose an article">
+      <label for="picker-search">Find a published article</label>
+      <input type="search" id="picker-search" placeholder="Search by title…" maxlength="100">
+      <ul class="picker-list" id="picker-list"></ul>
+    </aside>
+
+    <section class="panel chart-panel" aria-labelledby="chart-title">
+      <div class="chart-head">
+        <div>
+          <h2 id="chart-title">Choose an article</h2>
+          <p class="muted" id="chart-summary"></p>
+        </div>
+        <div class="chart-controls">
+          <label>Range
+            <select id="range">
+              <option value="updates" selected>Around publications</option>
+              <option value="24h">Last 24 hours</option>
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+              <option value="90d">Last 90 days</option>
+              <option value="all">Since first publication</option>
+            </select>
+          </label>
+          <label>Interval
+            <select id="interval">
+              <option value="">Automatic</option>
+              <option value="hour">Hourly</option>
+              <option value="day">Daily</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="chart-box">
+        <canvas id="views-chart" aria-label="Views over time chart" role="img"></canvas>
+        <p class="chart-placeholder muted" id="chart-placeholder">Select an article from the list to see its views.</p>
+      </div>
+      <p class="legend-note muted"><span class="legend-line"></span> Dashed vertical lines mark the moments an editor approved and published a version.</p>
+      <div class="table-wrap">
+        <table class="data-table hidden" id="impact-table">
+          <caption>Before / after each publication (average views per hour, 24 hours on each side)</caption>
+          <thead><tr><th>Published at</th><th>Version</th><th class="num">Before</th><th class="num">After</th><th class="num">Change</th></tr></thead>
+          <tbody id="impact-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<script src="/vendor/chart.js/chart.umd.js"></script>
+<script src="/js/analytics.js?v=<%= assetVersion %>"></script>
+</body>
+</html>
