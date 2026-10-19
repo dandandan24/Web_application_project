@@ -1,0 +1,21 @@
+{
+  "name": "the-daily-web",
+  "version": "1.0.0",
+  "description": "The Daily Web - news management, editing and publishing system (Node.js, Express, MongoDB, EJS, Vanilla JS)",
+  "main": "src/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "engines": {
+    "node": ">=20.6"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1",
+    "ejs": "^3.1.10",
+    "express": "^4.22.3",
+    "mongoose": "^8.24.5"
+  }
+}
