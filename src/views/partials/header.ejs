@@ -1,0 +1,32 @@
+<header class="site-header">
+  <div class="container header-top">
+    <a class="logo" href="/" aria-label="The Daily Web - home">The <span>Daily</span> Web</a>
+    <p class="header-date" id="today"></p>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">☰ <span class="sr-only">Menu</span></button>
+  </div>
+  <nav class="main-nav" id="main-nav" aria-label="Main">
+    <div class="container nav-inner">
+      <ul class="nav-links">
+        <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
+        <% if (currentUser) { %>
+          <li><a href="/workspace" class="<%= path.startsWith('/workspace') ? 'active' : '' %>"><%= currentUser.role === 'editor' ? 'Articles workspace' : 'My articles' %></a></li>
+          <% if (currentUser.role === 'editor') { %>
+            <li><a href="/editor" class="<%= path === '/editor' || path.startsWith('/editor/articles') ? 'active' : '' %>">Editorial desk</a></li>
+            <li><a href="/editor/analytics" class="<%= path.startsWith('/editor/analytics') ? 'active' : '' %>">Analytics</a></li>
+            <li><a href="/editor/comments" class="<%= path.startsWith('/editor/comments') ? 'active' : '' %>">Comments</a></li>
+            <li><a href="/editor/users" class="<%= path.startsWith('/editor/users') ? 'active' : '' %>">Users</a></li>
+          <% } %>
+        <% } %>
+      </ul>
+      <div class="nav-user">
+        <% if (currentUser) { %>
+          <span class="user-badge"><%= currentUser.displayName %> <small><%= currentUser.role %></small></span>
+          <button type="button" class="btn btn-small btn-ghost" id="logout-btn">Log out</button>
+        <% } else { %>
+          <a class="btn btn-small btn-ghost" href="/login">Staff login</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="toast-area" id="toast-area" aria-live="polite"></div>

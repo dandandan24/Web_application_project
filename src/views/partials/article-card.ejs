@@ -1,0 +1,17 @@
+<article class="card<%= item.viewed ? ' is-viewed' : '' %>">
+  <a class="card-image" href="<%= item.url %>" tabindex="-1" aria-hidden="true">
+    <img src="<%= item.imageUrl %>" alt="" loading="lazy" width="400" height="225">
+  </a>
+  <div class="card-body">
+    <div class="card-meta">
+      <a class="tag" href="/?category=<%= encodeURIComponent(item.category) %>"><%= item.category %></a>
+      <% if (item.viewed) { %><span class="viewed-badge">Viewed</span><% } %>
+    </div>
+    <h3 class="card-title"><a href="<%= item.url %>"><%= item.title %></a></h3>
+    <p class="card-summary"><%= item.summary %></p>
+    <p class="card-footer">
+      <span>By <%= item.author %></span>
+      <time datetime="<%= new Date(item.publishedAt).toISOString() %>"><%= fmt.formatDate(item.publishedAt) %></time>
+    </p>
+  </div>
+</article>
