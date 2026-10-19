@@ -1,0 +1,101 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page layout-with-sidebar">
+  <div class="content">
+    <% if (preview) { %>
+      <div class="notice notice-warning">
+        <strong>Preview of the working version</strong> (status: <%= statusLabel %>). Readers do not see this version until an editor approves it.
+        <a href="/workspace/articles/<%= article._id %>/edit">Back to editing</a>
+      </div>
+    <% } %>
+    <article class="article-full">
+      <header class="article-header">
+        <a class="tag" href="/?category=<%= encodeURIComponent(content.category) %>"><%= content.category || 'Uncategorised' %></a>
+        <h1><%= content.title || 'Untitled article' %></h1>
+        <% if (content.summary) { %><p class="lead"><%= content.summary %></p><% } %>
+        <p class="article-meta">
+          By <strong><%= article.author ? article.author.displayName : 'Staff' %></strong>
+          <% if (article.publishedAt) { %>
+            &middot; Published <time datetime="<%= new Date(article.publishedAt).toISOString() %>"><%= fmt.formatDateTime(article.publishedAt) %></time>
+          <% } %>
+          <% if (article.lastPublishedAt && article.publishEvents && article.publishEvents.length > 1) { %>
+            &middot; Updated <time datetime="<%= new Date(article.lastPublishedAt).toISOString() %>"><%= fmt.formatDateTime(article.lastPublishedAt) %></time>
+          <% } %>
+        </p>
+      </header>
+      <figure class="article-image">
+        <img src="<%= imageUrl %>" alt="<%= content.title %>" width="1200" height="675">
+      </figure>
+      <div class="article-body">
+        <% fmt.paragraphs(content.body).forEach(function (p) { %>
+          <p><%= p %></p>
+        <% }) %>
+      </div>
+    </article>
+
+    <% if (!preview) { %>
+    <section class="comments" id="comments" aria-labelledby="comments-title" data-article="<%= article._id %>">
+      <h2 id="comments-title">Comments (<span id="comment-count"><%= commentCount %></span>)</h2>
+
+      <form class="comment-form" id="comment-form" novalidate>
+        <% if (currentUser) { %>
+          <p class="muted">Commenting as <strong><%= currentUser.displayName %></strong></p>
+        <% } else { %>
+          <div class="field">
+            <label for="comment-name">Your name</label>
+            <input type="text" id="comment-name" name="authorName" maxlength="50" required minlength="2">
+            <p class="field-error" data-for="authorName"></p>
+          </div>
+        <% } %>
+        <div class="field">
+          <label for="comment-body">Comment</label>
+          <textarea id="comment-body" name="body" rows="3" maxlength="1000" required minlength="2"></textarea>
+          <p class="field-hint"><span id="comment-chars">0</span>/1000</p>
+          <p class="field-error" data-for="body"></p>
+        </div>
+        <p class="form-message" id="comment-message" role="alert"></p>
+        <button class="btn" type="submit">Post comment</button>
+      </form>
+
+      <ol class="comment-list" id="comment-list">
+        <% comments.forEach(function (c) { %>
+          <li class="comment" data-id="<%= c.id %>">
+            <p class="comment-head">
+              <strong><%= c.authorName %></strong><% if (c.isStaff) { %> <span class="staff-badge">Staff</span><% } %>
+              <time datetime="<%= new Date(c.createdAt).toISOString() %>"><%= fmt.formatDateTime(c.createdAt) %></time>
+            </p>
+            <p class="comment-body"><%= c.body %></p>
+          </li>
+        <% }) %>
+      </ol>
+      <p class="muted <%= comments.length ? 'hidden' : '' %>" id="no-comments">No comments yet. Be the first to comment.</p>
+      <% if (hasMoreComments) { %>
+        <button type="button" class="btn btn-ghost" id="more-comments">Show older comments</button>
+      <% } %>
+    </section>
+    <% } %>
+  </div>
+
+  <aside class="sidebar" aria-label="Sidebar">
+    <%- include('../partials/weather') %>
+    <% if (related.length) { %>
+    <section class="widget">
+      <h2>More in <%= content.category %></h2>
+      <ul class="related-list">
+        <% related.forEach(function (r) { %>
+          <li>
+            <a href="/articles/<%= r._id %>"><%= r.live.title %></a>
+            <time class="muted" datetime="<%= new Date(r.publishedAt).toISOString() %>"><%= fmt.formatDate(r.publishedAt) %></time>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+    <% } %>
+  </aside>
+</main>
+<script>window.IS_EDITOR = <%- JSON.stringify(Boolean(currentUser && currentUser.role === 'editor')) %>;</script>
+<%- include('../partials/footer') %>
+<script src="/js/weather.js?v=<%= assetVersion %>"></script>
+<% if (!preview) { %><script src="/js/article.js?v=<%= assetVersion %>"></script><% } %>
+</body>
+</html>
