@@ -1,0 +1,25 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main id="main" class="container page narrow">
+  <section class="panel login-panel">
+    <h1>Staff login</h1>
+    <p class="muted">For reporters and editors of The Daily Web.</p>
+    <form id="login-form" novalidate>
+      <input type="hidden" name="next" value="<%= next %>">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" required autofocus>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+      </div>
+      <p class="form-message" id="login-message" role="alert"></p>
+      <button class="btn btn-block" type="submit">Log in</button>
+    </form>
+  </section>
+</main>
+<%- include('../partials/footer') %>
+<script src="/js/login.js?v=<%= assetVersion %>"></script>
+</body>
+</html>
