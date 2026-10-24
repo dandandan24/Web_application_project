@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ROLES, required: true, default: 'reporter' },
   // Passwords are never stored as plain text: we keep a random salt and a scrypt hash (one-way)
   passwordHash: { type: String, required: true },
+  // Random per-user salt ensures identical passwords produce different hashes.
   passwordSalt: { type: String, required: true },
   lastLoginAt: Date
 }, { timestamps: true });
